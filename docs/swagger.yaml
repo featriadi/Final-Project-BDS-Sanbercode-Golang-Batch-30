@@ -27,6 +27,49 @@ definitions:
       name:
         type: string
     type: object
+  controllers.gameImageInput:
+    properties:
+      game_id:
+        type: integer
+      image_url:
+        type: string
+    type: object
+  controllers.gameInput:
+    properties:
+      developer_id:
+        type: integer
+      price:
+        type: integer
+      published_id:
+        type: integer
+      title:
+        type: string
+      year:
+        type: integer
+    type: object
+  controllers.gameTagInput:
+    properties:
+      game_id:
+        type: integer
+      tag_id:
+        type: integer
+    type: object
+  controllers.reviewInput:
+    properties:
+      description:
+        type: string
+      game_id:
+        type: integer
+      rating:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  controllers.tagInput:
+    properties:
+      name:
+        type: string
+    type: object
   models.Company:
     properties:
       created_at:
@@ -57,6 +100,60 @@ definitions:
       year:
         type: integer
     type: object
+  models.GameImage:
+    properties:
+      created_at:
+        type: string
+      game_id:
+        type: integer
+      id:
+        type: integer
+      image_url:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.GameTag:
+    properties:
+      created_at:
+        type: string
+      game_id:
+        type: integer
+      id:
+        type: integer
+      tag_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.Review:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      game_id:
+        type: integer
+      id:
+        type: integer
+      rating:
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.Tag:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
 info:
   contact:
     email: support@swagger.io
@@ -67,7 +164,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
 paths:
-  /company:
+  /companies:
     get:
       description: Get a list of Company.
       produces:
@@ -91,6 +188,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/controllers.companyInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -98,13 +200,20 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Company'
+      security:
+      - BearerToken: []
       summary: Create New Company.
       tags:
       - Company
-  /company/{id}:
+  /companies/{id}:
     delete:
       description: Delete a Company by id.
       parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Company id
         in: path
         name: id
@@ -119,6 +228,8 @@ paths:
             additionalProperties:
               type: boolean
             type: object
+      security:
+      - BearerToken: []
       summary: Delete one Company.
       tags:
       - Company
@@ -143,6 +254,11 @@ paths:
     patch:
       description: Update Company by id.
       parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: Company id
         in: path
         name: id
@@ -161,10 +277,186 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Company'
+      security:
+      - BearerToken: []
       summary: Update Company.
       tags:
       - Company
-  /game:
+  /game-images:
+    get:
+      description: Get a list of GameImage.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.GameImage'
+            type: array
+      summary: Get all gameImage.
+      tags:
+      - GameImage
+    post:
+      description: Creating a new GameImage.
+      parameters:
+      - description: the body to create a new GameImage
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.gameImageInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GameImage'
+      security:
+      - BearerToken: []
+      summary: Create New GameImage.
+      tags:
+      - GameImage
+  /game-images/{id}:
+    delete:
+      description: Delete a gameImage by id.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: gameImage id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - BearerToken: []
+      summary: Delete one gameImage.
+      tags:
+      - GameImage
+    get:
+      description: Get a GameImage by id.
+      parameters:
+      - description: gameImage id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GameImage'
+      summary: Get GameImage.
+      tags:
+      - GameImage
+  /game-tags:
+    get:
+      description: Get a list of GameTag.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.GameTag'
+            type: array
+      summary: Get all gameTag.
+      tags:
+      - GameTag
+    post:
+      description: Creating a new GameTag.
+      parameters:
+      - description: the body to create a new GameTag
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.gameTagInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GameTag'
+      security:
+      - BearerToken: []
+      summary: Create New GameTag.
+      tags:
+      - GameTag
+  /game-tags/{id}:
+    delete:
+      description: Delete a gameTag by id.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: gameTag id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - BearerToken: []
+      summary: Delete one gameTag.
+      tags:
+      - GameTag
+    get:
+      description: Get a GameTag by id.
+      parameters:
+      - description: gameTag id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GameTag'
+      summary: Get GameTag.
+      tags:
+      - GameTag
+  /games:
     get:
       description: Get a list of Game.
       produces:
@@ -177,6 +469,109 @@ paths:
               $ref: '#/definitions/models.Game'
             type: array
       summary: Get all game.
+      tags:
+      - Game
+    post:
+      description: Creating a new Game.
+      parameters:
+      - description: the body to create a new Game
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.gameInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Game'
+      security:
+      - BearerToken: []
+      summary: Create New Game.
+      tags:
+      - Game
+  /games/{id}:
+    delete:
+      description: Delete a game by id.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: game id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - BearerToken: []
+      summary: Delete one game.
+      tags:
+      - Game
+    get:
+      description: Get a Game by id.
+      parameters:
+      - description: game id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Game'
+      summary: Get Game.
+      tags:
+      - Game
+    patch:
+      description: Update game by id.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: game id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update an game
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.gameInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Game'
+      security:
+      - BearerToken: []
+      summary: Update Game.
       tags:
       - Game
   /login:
@@ -221,4 +616,209 @@ paths:
       summary: Register a user.
       tags:
       - Auth
+  /reviews:
+    get:
+      description: Get a list of Review.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Review'
+            type: array
+      summary: Get all review.
+      tags:
+      - Review
+    post:
+      description: Creating a new Review.
+      parameters:
+      - description: the body to create a new Review
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.reviewInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+      security:
+      - BearerToken: []
+      summary: Create New Review.
+      tags:
+      - Review
+  /reviews/{id}:
+    delete:
+      description: Delete a review by id.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: review id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - BearerToken: []
+      summary: Delete one Review.
+      tags:
+      - Review
+    get:
+      description: Get a Review by id.
+      parameters:
+      - description: review id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+      summary: Get Review.
+      tags:
+      - Review
+    patch:
+      description: Update review by id.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: review id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update an review
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.reviewInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+      security:
+      - BearerToken: []
+      summary: Update Review.
+      tags:
+      - Review
+  /tags:
+    get:
+      description: Get a list of Tag.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Tag'
+            type: array
+      summary: Get all Tag.
+      tags:
+      - Tag
+    post:
+      description: Creating a new Tag.
+      parameters:
+      - description: the body to create a new Tag
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.tagInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Tag'
+      security:
+      - BearerToken: []
+      summary: Create New Tag.
+      tags:
+      - Tag
+  /tags/{id}:
+    delete:
+      description: Delete a Tag by id.
+      parameters:
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Tag id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - BearerToken: []
+      summary: Delete one Tag.
+      tags:
+      - Tag
+    get:
+      description: Get an Tag by id.
+      parameters:
+      - description: Tag id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Tag'
+      summary: Get Tag.
+      tags:
+      - Tag
 swagger: "2.0"

@@ -19,7 +19,7 @@ type companyInput struct {
 // @Tags Company
 // @Produce json
 // @Success 200 {object} []models.Company
-// @Router /company [get]
+// @Router /companies [get]
 func GetAllCompany(c *gin.Context) {
 	// get db from gin context
 	db := c.MustGet("db").(*gorm.DB)
@@ -34,9 +34,11 @@ func GetAllCompany(c *gin.Context) {
 // @Description Creating a new Company.
 // @Tags Company
 // @Param Body body companyInput true "the body to create a new Company"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
 // @Produce json
 // @Success 200 {object} models.Company
-// @Router /company [post]
+// @Router /companies [post]
 func CreateCompany(c *gin.Context) {
 	// Validate input
 	var input companyInput
@@ -63,7 +65,7 @@ func CreateCompany(c *gin.Context) {
 // @Produce json
 // @Param id path string true "Company id"
 // @Success 200 {object} models.Company
-// @Router /company/{id} [get]
+// @Router /companies/{id} [get]
 func GetCompanyById(c *gin.Context) { // Get model if exist
 	var company models.Company
 
@@ -80,11 +82,13 @@ func GetCompanyById(c *gin.Context) { // Get model if exist
 // @Summary Update Company.
 // @Description Update Company by id.
 // @Tags Company
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
 // @Produce json
 // @Param id path string true "Company id"
 // @Param Body body companyInput true "the body to update company"
 // @Success 200 {object} models.Company
-// @Router /company/{id} [patch]
+// @Router /companies/{id} [patch]
 func UpdateCompany(c *gin.Context) {
 
 	db := c.MustGet("db").(*gorm.DB)
@@ -115,10 +119,12 @@ func UpdateCompany(c *gin.Context) {
 // @Summary Delete one Company.
 // @Description Delete a Company by id.
 // @Tags Company
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
 // @Produce json
 // @Param id path string true "Company id"
 // @Success 200 {object} map[string]boolean
-// @Router /company/{id} [delete]
+// @Router /companies/{id} [delete]
 func DeleteCompany(c *gin.Context) {
 	// Get model if exist
 	db := c.MustGet("db").(*gorm.DB)

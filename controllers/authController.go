@@ -20,6 +20,10 @@ type RegisterInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
+type SetPasswordInput struct {
+	Password string `json:"password" binding:"required"`
+}
+
 // LoginUser godoc
 // @Summary Login as as user.
 // @Description Logging in to get jwt token to access admin or user api by roles.
