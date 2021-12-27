@@ -123,7 +123,9 @@ func ResetPassword(c *gin.Context) {
 	}
 
 	var user models.User
-	userID := 1
+
+	// masih pake data dummy, belom nemu cara ambil userId secara langsung
+	userID := 2
 
 	if err := db.Where("id = ?", userID).First(&user).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
