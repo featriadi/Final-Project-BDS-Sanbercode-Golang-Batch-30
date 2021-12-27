@@ -41,6 +41,6 @@ func main() {
 
 	// router
 	r := routes.SetupRouter(db)
-	// just remove port 8080
+	// just remove port
 	r.Run()
 }
