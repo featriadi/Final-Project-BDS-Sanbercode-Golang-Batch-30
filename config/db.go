@@ -1,6 +1,7 @@
 package config
 
 import (
+	"Final-Project-BDS-Sanbercode-Golang-Batch-30/models"
 	"Final-Project-BDS-Sanbercode-Golang-Batch-30/utils"
 	"fmt"
 	"os"
@@ -26,15 +27,24 @@ func ConnectDataBase() *gorm.DB {
 			panic(err.Error())
 		}
 
-		// db.AutoMigrate(&models.User{}, &models.Movie{}, &models.AgeRatingCategory{})
+		db.AutoMigrate(
+			// &models.Role{},
+			&models.User{},
+			&models.Company{},
+			&models.Game{},
+			&models.GameImage{},
+			&models.Tag{},
+			&models.GameTag{},
+			&models.Review{},
+		)
 
 		return db
 	} else {
 		// development
 		username := "root"
-		password := "password"
+		password := ""
 		host := "tcp(127.0.0.1:3306)"
-		database := "database_movie"
+		database := "ta_sanbercode"
 
 		dsn := fmt.Sprintf("%v:%v@%v/%v?charset=utf8mb4&parseTime=True&loc=Local", username, password, host, database)
 		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
@@ -43,7 +53,16 @@ func ConnectDataBase() *gorm.DB {
 			panic(err.Error())
 		}
 
-		// db.AutoMigrate(&models.User{}, &models.Movie{}, &models.AgeRatingCategory{})
+		db.AutoMigrate(
+			// &models.Role{},
+			&models.User{},
+			&models.Company{},
+			&models.Game{},
+			&models.GameImage{},
+			&models.Tag{},
+			&models.GameTag{},
+			&models.Review{},
+		)
 
 		return db
 	}

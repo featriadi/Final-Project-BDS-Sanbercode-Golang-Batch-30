@@ -10,15 +10,23 @@ import (
 )
 
 type (
+	// Role struct {
+	// 	ID        uint      `json:"id" gorm:"primary_key"`
+	// 	Name      string    `json:"name"`
+	// 	CreatedAt time.Time `json:"created_at"`
+	// 	UpdatedAt time.Time `json:"updated_at"`
+	// }
+
 	User struct {
-		ID        uint      `json:"id"`
-		Name      string    `json:"name"`
-		Email     string    `json:"email"`
-		Password  string    `json:"password"`
-		Avatar    string    `json:"avatar"`
-		Role      string    `json:"role"`
+		ID       uint   `json:"id" gorm:"primary_key"`
+		Name     string `json:"name"`
+		Email    string `json:"email" gorm:"unique"`
+		Password string `json:"password"`
+		Avatar   string `json:"avatar"`
+		// RoleID    uint      `json:"role_id"`
 		CreatedAt time.Time `json:"created_at"`
 		UpdatedAt time.Time `json:"updated_at"`
+		// Role      Company   `json:"-"`
 	}
 )
 

@@ -4,7 +4,7 @@ import "time"
 
 type (
 	GameImage struct {
-		ID        uint      `json:"id"`
+		ID        uint      `json:"id" gorm:"primary_key"`
 		GameID    uint      `json:"game_id"`
 		ImageUrl  string    `json:"image_url"`
 		CreatedAt time.Time `json:"created_at"`
