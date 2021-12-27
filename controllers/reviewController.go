@@ -10,7 +10,6 @@ import (
 )
 
 type reviewInput struct {
-	UserID      uint   `json:"user_id"`
 	GameID      uint   `json:"game_id"`
 	Rating      int    `json:"rating"`
 	Description string `json:"description"`
@@ -52,13 +51,14 @@ func CreateReview(c *gin.Context) {
 		return
 	}
 
-	// Check Company
+	// Check User
 	var user models.User
-	if err := db.Where("id = ?", input.UserID).First(&user).Error; err != nil {
+	if err := db.Where("id = ?", 2).First(&user).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "UserID not found!"})
 		return
 	}
 
+	// Check Game
 	var game models.Game
 	if err := db.Where("id = ?", input.GameID).First(&game).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "GameID not found!"})
@@ -67,7 +67,7 @@ func CreateReview(c *gin.Context) {
 
 	// Create Review
 	review := models.Review{
-		UserID:      input.UserID,
+		UserID:      2,
 		GameID:      input.GameID,
 		Rating:      input.Rating,
 		Description: input.Description,
@@ -126,7 +126,7 @@ func UpdateReview(c *gin.Context) {
 	}
 
 	var user models.User
-	if err := db.Where("id = ?", input.UserID).First(&user).Error; err != nil {
+	if err := db.Where("id = ?", 2).First(&user).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "UserID not found!"})
 		return
 	}
@@ -138,7 +138,7 @@ func UpdateReview(c *gin.Context) {
 	}
 
 	var updatedInput models.Review
-	updatedInput.UserID = input.UserID
+	updatedInput.UserID = 2
 	updatedInput.GameID = input.GameID
 	updatedInput.Rating = input.Rating
 	updatedInput.Description = input.Description

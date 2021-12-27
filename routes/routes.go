@@ -21,21 +21,27 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	r.POST("/register", controllers.Register)
 	r.POST("/login", controllers.Login)
 
+	// companies
 	r.GET("/companies", controllers.GetAllCompany)
 	r.GET("/companies/:id", controllers.GetCompanyById)
 
+	// games
 	r.GET("/games", controllers.GetAllGame)
 	r.GET("/games/:id", controllers.GetGameById)
 
+	// tags
 	r.GET("/tags", controllers.GetAllTag)
 	r.GET("/tags/:id", controllers.GetTagById)
 
+	// game tags
 	r.GET("/game-tags", controllers.GetAllGameTag)
 	r.GET("/game-tags/:id", controllers.GetGameTagById)
 
+	// game images
 	r.GET("/game-images", controllers.GetAllGameImage)
 	r.GET("/game-images/:id", controllers.GetGameImageById)
 
+	// reviews
 	r.GET("/reviews", controllers.GetAllReview)
 	r.GET("/reviews/:id", controllers.GetReviewById)
 

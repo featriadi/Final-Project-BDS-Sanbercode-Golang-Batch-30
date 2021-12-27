@@ -28,7 +28,6 @@ func ConnectDataBase() *gorm.DB {
 		}
 
 		db.AutoMigrate(
-			// &models.Role{},
 			&models.User{},
 			&models.Company{},
 			&models.Game{},
@@ -54,7 +53,6 @@ func ConnectDataBase() *gorm.DB {
 		}
 
 		db.AutoMigrate(
-			// &models.Role{},
 			&models.User{},
 			&models.Company{},
 			&models.Game{},
