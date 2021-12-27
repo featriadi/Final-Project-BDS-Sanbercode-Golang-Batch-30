@@ -39,6 +39,10 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	r.GET("/reviews", controllers.GetAllReview)
 	r.GET("/reviews/:id", controllers.GetReviewById)
 
+	usersMiddlewareRoute := r.Group("/users")
+	usersMiddlewareRoute.Use(middlewares.JwtAuthMiddleware())
+	usersMiddlewareRoute.POST("/reset-password", controllers.ResetPassword)
+
 	companiesMiddlewareRoute := r.Group("/companies")
 	companiesMiddlewareRoute.Use(middlewares.JwtAuthMiddleware())
 	companiesMiddlewareRoute.POST("/", controllers.CreateCompany)

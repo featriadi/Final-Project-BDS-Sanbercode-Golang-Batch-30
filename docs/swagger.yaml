@@ -22,6 +22,13 @@ definitions:
     - name
     - password
     type: object
+  controllers.ResetPasswordInput:
+    properties:
+      password:
+        type: string
+    required:
+    - password
+    type: object
   controllers.companyInput:
     properties:
       name:
@@ -821,4 +828,32 @@ paths:
       summary: Get Tag.
       tags:
       - Tag
+  /users/reset-password:
+    post:
+      description: reseting password a user from public access.
+      parameters:
+      - description: the body to reset password a user
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.ResetPasswordInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerToken: []
+      summary: Reset Password a user.
+      tags:
+      - Auth
 swagger: "2.0"

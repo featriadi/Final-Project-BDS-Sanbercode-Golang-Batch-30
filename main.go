@@ -4,6 +4,7 @@ import (
 	"Final-Project-BDS-Sanbercode-Golang-Batch-30/config"
 	"Final-Project-BDS-Sanbercode-Golang-Batch-30/docs"
 	"Final-Project-BDS-Sanbercode-Golang-Batch-30/routes"
+	"Final-Project-BDS-Sanbercode-Golang-Batch-30/utils"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -20,6 +21,7 @@ import (
 
 func main() {
 	// for load godotenv
+	// for env
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -29,7 +31,7 @@ func main() {
 	docs.SwaggerInfo.Title = "Swagger Example API"
 	docs.SwaggerInfo.Description = "This is a sample server Movie."
 	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = "localhost:8000"
+	docs.SwaggerInfo.Host = utils.Getenv("SWAGGER_HOST", "localhost:8080")
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 
 	// database connection
@@ -39,5 +41,6 @@ func main() {
 
 	// router
 	r := routes.SetupRouter(db)
-	r.Run("localhost:8000")
+	// just remove port 8080
+	r.Run()
 }

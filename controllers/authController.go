@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -20,7 +21,7 @@ type RegisterInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
-type SetPasswordInput struct {
+type ResetPasswordInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
@@ -99,4 +100,46 @@ func Register(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "registration success", "user": user})
 
+}
+
+// Reset Password godoc
+// @Summary Reset Password a user.
+// @Description reseting password a user from public access.
+// @Tags Auth
+// @Param Body body ResetPasswordInput true "the body to reset password a user"
+// @Param Authorization header string true "Authorization. How to input in swagger : 'Bearer <insert_your_token_here>'"
+// @Security BearerToken
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /users/reset-password [post]
+func ResetPassword(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+
+	var input ResetPasswordInput
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+	userID := 1
+
+	if err := db.Where("id = ?", userID).First(&user).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+
+	hashedPassword, errPassword := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
+	if errPassword != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Password error!"})
+		return
+	}
+
+	var updatedInput models.User
+	updatedInput.Password = string(hashedPassword)
+
+	db.Model(&user).Updates(updatedInput)
+
+	c.JSON(http.StatusOK, gin.H{"data": user})
 }
